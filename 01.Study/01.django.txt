@@ -1,0 +1,42 @@
+1. Django 폴더 생성
+
+2. Django 라이브러리 설치 (아나콘다 프롬포트)
+    conda install -c conda-forge Django
+
+3. 라이브러리 설치 확인 (아나콘다 프롬포트)
+    conda list | findstr django
+    
+4. Django 프로젝트 만들기 (명령프롬포트 Django 폴더 위치)
+    django-admin startproject config .
+    settings.py : 웹 서버와 관련된 환경설정 파일
+    urls.py : url을 받아내서 처리하는 파일
+
+5. VSCODE 실행 (명령프롬포트 Django 폴더 위치)
+    code .
+
+6. 웹서버 구동 (명령프롬포트 Django 폴더 위치)
+    python manage.py runserver
+    나온 웹 서버 주소 복사 http://127.0.0.1:8000/ 
+        (복사할때 마우스 오른쪽 클릭 > CTRL + C = 종료) 
+    브라우저에 붙여넣기 > 로켓그림 나오면 성공
+    
+7. App 생성 (명령프롬포트 Django 폴더 위치)
+    django-admin startapp 폴더이름
+    views.py : 가장 많이 쓰는 파일
+    models.py : 데이터 베이스 처리 파일
+    
+8. 가상환경 만들기(아나콘다 프롬포트)
+    가상환경 확인 : conda env list
+    가상환경 생성 : conda create --name 가상환경이름
+    가상환경 활성화 : conda activate 가상환경이름
+
+9. 라이브러리 설치(아나콘다 프롬포트 django)
+    Django 4.0.1버젼 : conda install -c conda-forge django==4.0.1
+    Django 버젼 확인 : django-admin --version
+    설치 확인 : conda list / pip list
+    
+    주피터노트북 : pip install jupyter notebook
+    주피터 LAB : pip install jupyter lab
+    가상환경 커널연결 : python -m ipykernel install --user --name django --display-name django_kernel
+    기본 설치 라이브러리(1) : pip install ipython jupyter matplotlib pandas sklearn xlrd seaborn
+    기본 설치 라이브러리(2) : pip install openpyxl
