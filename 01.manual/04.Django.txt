@@ -1,0 +1,4 @@
+1. MTV(MVT) 패턴 (Model, Template, Views)
+    Model : 백엔드 부분 처리(DB테이블)
+    Template : 프론트엔드 부분 처리(HTML, CSS, JavaScript)
+    Views : Controller 역할, 요청을 받은후 Model 실행 후 응답

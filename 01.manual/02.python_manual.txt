@@ -1,0 +1,30 @@
+- 가상환경 만들기
+ python -m venv django
+
+- 가상환경으로 들어가기
+ django\Scripts\activate.bat
+
+- 가상환경 빠져나오기
+ deactivate
+
+- 라이브러리  설치 목록 확인하기
+ pip list
+
+- django 설치
+ pip install django==4.0.1
+
+- 라이브러리 모두 설치하기
+ pip install ipython jupyter matplotlib pandas sklearn xlrd seaborn
+ pip install openpyxl
+
+- 주피터 노트북 접속
+ jupyter notebook
+
+- 장고 프로젝트 생성
+ django-admin startproject config .
+
+- 장고 앱 생성
+ django-admin startapp firstapp
+
+- 서버 실행
+ python manage.py runserver
