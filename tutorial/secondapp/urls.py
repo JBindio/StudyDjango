@@ -7,4 +7,6 @@ urlpatterns = [
     path('insert/', sec_v.insert),
     path('show/', sec_v.show),
     path('oneshow/', sec_v.oneshow),
+    path('show2/', sec_v.show2),
+    path('oneshow2/', sec_v.oneshow2),
 ]

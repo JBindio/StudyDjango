@@ -1,0 +1,26 @@
+<html>
+<head>
+    <title>Course 테이블</title>
+</head>
+<body>
+    <h1>Course 테이블 전체 조회하기</h1>
+    <table border="1">
+        <tr>
+            <td>아이디</td>
+            <td>과목</td>
+            <td>점수</td>
+        </tr>
+        {% for dt in data%}
+        <tr>
+            <td>{{dt.id}}</td>
+            <td>{{dt.name}}</td>
+            <td>{{dt.cnt}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {%for dt in data%}
+    <h3>{{dt.id}} / {{dt.name}} / {{dt.cnt}}</h3>
+    {% endfor %}
+</body>
+</html>

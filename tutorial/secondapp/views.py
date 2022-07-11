@@ -33,3 +33,19 @@ def oneshow(request) :
     oneshow = Course.objects.get(pk=3)
     msg = oneshow.name + ' ' + str(oneshow.cnt)    
     return HttpResponse(msg)
+
+def show2(request) :
+    data = Course.objects.all()
+    return render(
+        request,
+        'secondapp/show2.html',
+        {'data' : data}
+    )
+    
+def oneshow2(request) :
+    data = Course.objects.get(pk=4)
+    return render(
+        request,
+        'secondapp/oneshow2.html',
+        {'data' : data}
+    )
