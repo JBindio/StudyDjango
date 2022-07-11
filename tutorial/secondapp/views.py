@@ -1,7 +1,35 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from .models import Course
+
 # Create your views here.
 
 def main(request) :
     return HttpResponse('<h1><u>Main</u></h1>')
+
+def insert(request) :
+    msg = ''
+    Course(name='데이터분석', cnt = '30').save()
+    msg += '데이터분석 입력완료 <br>'
+    Course(name='데이터수집', cnt = '20').save()
+    msg += '데이터수집 입력완료 <br>'
+    Course(name='웹개발', cnt = '25').save()
+    msg += '웹개발 입력완료 <br>'
+    Course(name='인공지능', cnt = '20').save()
+    msg += '인공지능 입력완료'
+    return HttpResponse(msg)
+
+
+def show(request) :
+    msg = ''
+    data = Course.objects.all()
+    for dt in data :
+        msg += dt.name + ' ' + str(dt.cnt) +'<br>'
+        
+    return HttpResponse(msg)
+
+def oneshow(request) :
+    oneshow = Course.objects.get(pk=3)
+    msg = oneshow.name + ' ' + str(oneshow.cnt)    
+    return HttpResponse(msg)

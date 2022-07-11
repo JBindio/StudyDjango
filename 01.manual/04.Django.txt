@@ -2,3 +2,29 @@
     Model : 백엔드 부분 처리(DB테이블)
     Template : 프론트엔드 부분 처리(HTML, CSS, JavaScript)
     Views : Controller 역할, 요청을 받은후 Model 실행 후 응답
+
+2. 웹서버 진행 순서
+    1) 웹 브라우저 > URL 입력 > 엔터 > 웹 서버에 요청(Request)
+    2) Config > settings.py 에서 도메인 확인
+    3) Config > urls.py 에서 페이지분리 > App으로 나머지 뒤에 URL 전달
+    4) App > urls.py 에서 URL 받기 > views.py 함수 호출
+    5) App > views.py 에서 함수 실행 > models.py 데이터 처리 
+           > views.py 에 전달 > views.py 에서 HTML 호출 > HTML 에 데이터 담기
+    6) 웹 브라우저로 HTML 전달(Return)
+
+3. 개발 순서 = 웹서버 진행 순서의 역순    
+
+4. 데이터베이스(모델) 생성
+    App > models.py > class로 생성
+    ex) # 클래스 이름 = 테이블 명
+        # 변수명 = 컬럼 명
+        class 클래스이름(models.Model) :
+            변수명 = models.CharField(max_length=255)
+
+5. 모델 확인 
+    python manage.py makemigrations App이름
+    App > migrations 폴더 > 0001_initial 확인 
+    
+5. 모델 적용
+    python manage.py migrate
+    SQLite 새로고침 
