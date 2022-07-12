@@ -11,4 +11,6 @@ urlpatterns = [
     path('show2/', fir_v.show2),
     path('show3/', fir_v.show3),
     path('show4/', fir_v.show4),
+    path('update/', fir_v.update),
+    path('delete/', fir_v.delete),
 ]

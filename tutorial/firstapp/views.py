@@ -47,11 +47,14 @@ def oneshow(request) :
     return HttpResponse(onedata.name) 
 
 def update(request) :
-    Curriculum.objects.update(name='liunux')
+    data = Curriculum.objects.get(pk=1)
+    data.name = 'linux_update'
+    data.save()
     return HttpResponse('데이터 수정완료')
 
 def delete(request) :
-    Curriculum.objects.delete(name='liunux')
+    data = Curriculum.objects.get(pk=1)
+    data.delete()
     return HttpResponse('데이터 삭제완료')
 
 def show2(request) :

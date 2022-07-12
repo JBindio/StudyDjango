@@ -25,5 +25,6 @@ urlpatterns = [
     path('index2/', fir_v.index2),
     path('first/', include('firstapp.urls')),
     path('second/', include('secondapp.urls')),
+    path('oracle/', include('oracleapp.urls')),
     # path('home/', views.home),
 ]

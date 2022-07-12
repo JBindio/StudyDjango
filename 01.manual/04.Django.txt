@@ -28,3 +28,7 @@
 5. 모델 적용
     python manage.py migrate
     SQLite 새로고침 
+
+6. 데이터 조회 하기
+7. 데이터 수정 하기
+8. 데이터 삭제 하기
