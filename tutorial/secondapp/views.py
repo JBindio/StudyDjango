@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from .models import Course
+from .model_pandas import lprod
 
 # Create your views here.
 
@@ -48,4 +49,26 @@ def oneshow2(request) :
         request,
         'secondapp/oneshow2.html',
         {'data' : data}
+    )
+    
+def view_Lprod_List(request) :
+    
+    df = lprod.getLprodList()
+    context = {'df' : df}
+    return render(
+        request,
+        'secondapp/lprod/lprod_list.html',
+        context
+    )
+    
+def view_Lprod(request) :
+    
+    lprod_gu = request.GET['lprod_gu']
+    
+    df = lprod.getLprod(lprod_gu)
+    
+    return render(
+        request,
+        'secondapp/lprod/lprod.html',
+        df
     )

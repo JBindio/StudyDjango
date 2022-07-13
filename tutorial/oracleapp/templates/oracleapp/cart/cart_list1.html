@@ -13,7 +13,6 @@
             <th>주문번호</th>
             <th>상품코드</th>
             <th>수량</th>
-            <th>삭제</th>
         </tr>
         {% for data in df %}
         <tr>
@@ -25,11 +24,6 @@
             <td>{{data.cart_no}}</td>
             <td>{{data.cart_prod}}</td>
             <td>{{data.cart_qty}}</td>
-            <td style="background-color: orange;">
-                <a href="http://127.0.0.1:8000/oracle/cart_delete?cart_no={{data.cart_no}}&cart_prod={{data.cart_prod}}">
-                [삭제]
-                </a>
-            </td>
         </tr>
         {% endfor %}
     </table>

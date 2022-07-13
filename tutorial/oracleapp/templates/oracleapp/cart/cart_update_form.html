@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>Update</title>
+    <script>
+        // 저장버튼 클릭시 호출되는 함수
+        function send(){
+            // 팝업창(경고창) 생성
+            alert('수정이 완료되었습니다');
+            document.getElementById('fm').submit();
+        }
+    </script>
+</head>
+<body>
+    <form name="fm" id="fm", method="post" action="/oracle/cart_update">
+        <input type="hidden" name="'cart_no" value="{{pcart_no}}">
+        <input type="hidden" name="'cart_prod" value="{{pcart_prod}}">
+    <center>
+    <h1>Update</h1>
+    <table border="1", style="text-align: center;">
+        <tr>
+            <td style="background-color: gold;"><b>회원아이디</b></td>
+            <td>{{cart_member}}</td>
+        </tr>
+        <tr>
+        <tr>
+            <td style="background-color: gold;"><b>주문번호</b></td>
+            <td>{{cart_no}}</td>
+        </tr>
+        <tr>
+            <td style="background-color: gold;"><b>상품코드</b></td>
+            <td>{{cart_prod}}</td>
+        </tr>
+        <tr>
+            <td style="background-color: gold;"><b>수량</b></td>
+            <td><input type="text" name="cart_qty" value="{{cart_qty}}"></td>
+        </tr>
+    </table>
+    <a href="#" onclick="send();">[저장]</a>
+    </center>
+    </form>
+</body>
+</html>

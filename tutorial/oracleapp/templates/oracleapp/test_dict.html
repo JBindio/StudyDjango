@@ -1,0 +1,24 @@
+<html>
+<head>
+    <title>Dictionary Test</title>
+</head>
+<body>
+<center>
+    <h1>Dictionary Test</h1>
+    <table border="1" style="text-align: center;">
+        <tr style="background-color: gold;">
+            <th>No.1</th>
+            <th>No.2</th>
+            <th>No.3</th>
+        </tr>
+        {% for dict in context %}
+        <tr>
+            <td>{{dict.no1}}</td>
+            <td>{{dict.no3}}</td>
+            <td>{{dict.no2}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</center>
+</body>
+</html>
