@@ -1,21 +1,22 @@
 <html>
 <head>
-    <title>Update</title>
+    <title>Cart Update</title>
     <script>
         // 저장버튼 클릭시 호출되는 함수
         function send(){
             // 팝업창(경고창) 생성
-            alert('수정이 완료되었습니다');
+            // alert('수정이 완료되었습니다');
             document.getElementById('fm').submit();
         }
     </script>
 </head>
 <body>
-    <form name="fm" id="fm", method="post" action="/oracle/cart_update">
-        <input type="hidden" name="'cart_no" value="{{pcart_no}}">
-        <input type="hidden" name="'cart_prod" value="{{pcart_prod}}">
+    <form name="fm" id="fm", method="post" action="/oracle/cart_update/">
+        <input type="hidden" name="pcart_no" value="{{pcart_no}}">
+        <input type="hidden" name="pcart_prod" value="{{pcart_prod}}">
+        {% csrf_token %}
     <center>
-    <h1>Update</h1>
+    <h1>Cart Update Page</h1>
     <table border="1", style="text-align: center;">
         <tr>
             <td style="background-color: gold;"><b>회원아이디</b></td>

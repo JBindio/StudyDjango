@@ -138,7 +138,7 @@ def setCartInsert(id, prod, qty):
     conn.commit()
     dbclose(cursor, conn)
     
-    return '입력이 완료되었습니다.'
+    return 'Y'
 
 # 주문내역 입력하기
 def setCartDelete(no, prod):
@@ -154,4 +154,23 @@ def setCartDelete(no, prod):
     conn.commit()
     dbclose(cursor, conn)
     
-    return '삭제가 완료되었습니다.'
+    return 'Y'
+
+def setCartUpdate(no, prod, qty):
+    conn = getConnection()
+    cursor = getCursor(conn)
+    
+    # 주문내역 입력을 위한 sql문 작성
+    sql = '''UPDATE cart 
+                SET cart_qty = :cart_qty
+              WHERE cart_no = :cart_no
+                AND cart_prod = :cart_prod
+          '''
+    cursor.execute(sql, 
+                   cart_no = no, 
+                   cart_prod= prod,
+                   cart_qty= qty)
+    conn.commit()
+    dbclose(cursor, conn)
+    
+    return 'Y'

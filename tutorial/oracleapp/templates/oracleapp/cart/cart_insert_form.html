@@ -1,0 +1,30 @@
+<html>
+<head>
+    <title>Cart Insert</title>
+    <script>
+        // 저장버튼 클릭시 호출되는 함수
+        function send(){
+            // 팝업창(경고창) 생성
+            // alert('수정이 완료되었습니다');
+            document.getElementById('fm').submit();
+        }
+    </script>
+</head>
+<body>
+    <form name="fm" id="fm", method="post" action="/oracle/cart_insert/">
+        <input type="hidden" name="pcart_member" value="{{pcart_member}}">
+        <input type="hidden" name="pcart_prod" value="{{pcart_prod}}">
+        {% csrf_token %}
+    <center>
+    <h1>Cart Insert Page</h1>
+    <table border="1", style="text-align: center;">
+        <tr>
+            <td style="background-color: gold;"><b>수량</b></td>
+            <td><input type="text" name="cart_qty" value=""></td>
+        </tr>
+    </table>
+    <a href="#" onclick="send();">[저장]</a>
+    </center>
+    </form>
+</body>
+</html>

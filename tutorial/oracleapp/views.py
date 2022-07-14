@@ -1,8 +1,12 @@
+from email.utils import make_msgid
 from importlib.resources import contents
+from urllib import request
 from django.http import HttpResponse
 from django.shortcuts import render
+from matplotlib.style import context
 from .model_pandas import member as mem
 from .model_pandas import cart
+from .model_pandas import login
 
 # Create your views here.
 
@@ -62,9 +66,9 @@ def view_Cart_Member_List(request) :
 
 def view_Cart(request) :
     
-    cart_no = request.GET['cart_no']
-    cart_prod = request.GET['cart_prod']
-    df_dict = cart.getCart(cart_no, cart_prod)
+    pcart_no = request.GET['pcart_no']
+    pcart_prod = request.GET['pcart_prod']
+    df_dict = cart.getCart(pcart_no, pcart_prod)
     
     return render(
         request,
@@ -73,40 +77,101 @@ def view_Cart(request) :
     )
     
 def set_Cart_Insert(request) :
-    id = 'e001'
-    prod = 'P102000001'
-    qty = 17
+    pcart_member = request.POST['pcart_member']
+    pcart_prod = request.POST['pcart_prod']
+    cart_qty = request.POST['cart_qty']
     
-    msg = cart.setCartInsert(id,prod,qty)
+    msg = cart.setCartInsert(pcart_member,pcart_prod,cart_qty)
     
-    return HttpResponse(msg)
+    if msg =='Y' :
+        pageControl = '''<script>
+                            alert('입력이 완료되었습니다.')
+                            location.href='/oracle/cart_list/'
+                         </script>
+                      '''
+    else :
+        pageControl = '''<script>
+                            alert('입력에 실패했습니다. 다시 시도하세요')
+                            history.go(-1)
+                         </script>
+                      '''
+    return HttpResponse(pageControl)
 
-def set_Cart_Delete(request) :
-    cart_no = request.GET['cart_no']
-    cart_prod = request.GET['cart_prod']
+
+def view_Cart_Insert(request) :
     
-    msg = cart.setCartDelete(cart_no, cart_prod)
+    pcart_member = 'e001'
+    pcart_prod = 'P102000001'
     
     return render(
         request,
-        'oracleapp/cart/cart_delete.html',
-        {'msg':msg}
+        'oracleapp/cart/cart_insert_form.html',
+        {'pcart_member':pcart_member, 'pcart_prod':pcart_prod}
     )
+
+def set_Cart_Delete(request) :
+    pcart_no = request.GET['pcart_no']
+    pcart_prod = request.GET['pcart_prod']
+    
+    msg = cart.setCartDelete(pcart_no, pcart_prod)
+    
+    if msg =='Y' :
+        pageControl = '''<script>
+                            alert('삭제가 완료되었습니다.')
+                            location.href='/oracle/cart_list/'
+                         </script>
+                      '''
+    else :
+        pageControl = '''<script>
+                            alert('삭제에 실패했습니다. 다시 시도하세요')
+                            history.go(-1)
+                         </script>
+                      '''
+    return HttpResponse(pageControl)
     
 def view_Cart_Update(request) :
-    pcart_no = request.GET['cart_no']
-    pcart_prod = request.GET['cart_prod']
+    pcart_no = request.GET['pcart_no']
+    pcart_prod = request.GET['pcart_prod']
     
-    # msg = cart.setCartDelete(cart_no, cart_prod)
+    df_dict = cart.getCart(pcart_no, pcart_prod)
+    df_dict['pcart_no'] = pcart_no
+    df_dict['pcart_prod'] = pcart_prod
     
-    context = {'pcart_no': pcart_no, 
-               'pcart_prod' : pcart_prod}
+    # context = {'pcart_no': pcart_no, 
+    #            'pcart_prod' : pcart_prod}
     
     return render(
         request,
         'oracleapp/cart/cart_update_form.html',
-        context
+        df_dict
     )
+
+def set_Cart_Update(request) :
+    pcart_no = request.POST['pcart_no']
+    pcart_prod = request.POST['pcart_prod']
+    cart_qty = request.POST['cart_qty']
+    
+    msg = cart.setCartUpdate(pcart_no, pcart_prod, cart_qty)
+    
+    if msg =='Y' :
+        pageControl = '''<script>
+                            alert('수정이 완료되었습니다.')
+                            location.href='/oracle/cart_list/'
+                         </script>
+                      '''
+    else :
+        pageControl = '''<script>
+                            alert('수정에 실패했습니다. 다시 시도하세요')
+                            history.go(-1)
+                         </script>
+                      '''
+    return HttpResponse(pageControl)
+    # return render(
+    #     request,
+    #     'oracleapp/cart/cart_update.html',
+    #     {'msg': msg}
+    # )
+
 
 def testDict(request) :
     context = {'context' : [{'no1':1,'no2':2,'no3':3},
@@ -116,4 +181,75 @@ def testDict(request) :
         'oracleapp/test_dict.html',
         context
     )
+
+# 로그인 화면
+def view_Login_Form(request):
+   return render(
+        request,
+        'oracleapp/login/login_form.html',
+        {}
+    )
     
+def get_Login(request):
+    pmem_id = request.POST['mem_id']
+    pmem_pass = request.POST['mem_pass']
+    
+    df_dict = login.getLogin(pmem_id, pmem_pass)
+    # 로그인 실패 시 처리
+    if df_dict['rs'] == 'no':
+        context = '''<script>
+                        alert('로그인 실패. 아이디 또는 패스워드를 확인하세요.')
+                        history.go(-1)
+                    </script>'''
+        return HttpResponse(context)
+    
+    df_dict['pmem_id'] = pmem_id
+    df_dict['pmem_pass'] = pmem_pass
+    
+    #  '''<script>
+    #         alert('로그인 실패. 아이디 또는 패스워드를 확인하세요.')
+    #         history.go(-1)
+    #     </script>'''
+
+    
+    # Session 처리 (회원 정보를 서버에 저장해 놓고 있는 상태)
+    # (로그아웃 하기전 까지 회원 정보 유지)
+    # request.session[]
+    # session에 저장되는 값 = 딕셔너리 형태
+    # session 등록하기
+    request.session['sMem_id'] = pmem_id
+    request.session['sMem_name'] = df_dict['mem_name']
+    
+    # Session에 저장된 값 불러오기
+    if request.session.get('sMem_id') :
+        # 세션에 값이 있는경우
+        df_dict['sMem_id'] = request.session['sMem_id']
+        df_dict['sMem_name'] = request.session['sMem_name']
+    else:
+        # 세션에 값이 없는경우
+        df_dict['sMem_id'] = None
+
+    return render(
+        request,
+        # 'oracleapp/login/login.html',
+        'oracleapp/login/login_form.html',
+        df_dict
+    )
+    
+def set_Logout(request) :
+    if request.session.get('sMem_id') :
+        # 세션정보 삭제하기
+        request.session.flush()
+        
+        context = '''<script>
+                        alert('로그아웃 되었습니다')
+                        location.href='/oracle/login_form/'
+                     </script>'''
+        return HttpResponse(context)
+
+    else : 
+        context = '''<script>
+                        alert('직접 접근할 수 없습니다, 로그인 페이지로 이동합니다')
+                        location.href='/oracle/login_form/'
+                     </script>'''
+        return HttpResponse(context)

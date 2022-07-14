@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Login Page</title>
+    </head>
+    <center>
+    <body>
+        <h1>Login Success</h1>
+        {%csrf_token%}
+    <div>
+        <hr> P아이디 : {{pmem_id}}
+        <br> P패스워드 : {{pmem_pass}}
+        <hr> DB 조회 아이디 : {{mem_id}}
+        <br> DB 조회 패스워드 : {{mem_pass}}
+        <br> DB 조회 회원이름 : {{mem_name}}
+        <hr> 세션아이디 : {{sMem_id}}
+        <br> 세션이름 : {{sMem_name}}
+
+    </div>
+    </body>
+    </center>
+    
+</html>

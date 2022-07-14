@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Login Page</title>
+
+        <script>
+            function send(){
+                //alert('로그인 되었습니다');
+                document.getElementById('fm').submit();
+            }
+            
+            function logout(){
+                //alert('로그아웃 되었습니다')
+                location.href='/oracle/logout/'
+            }
+        </script>
+    </head>
+    <center>
+    <body>
+        <h1>Login Page</h1>
+    
+        {% if sMem_id == None %}
+            <form id="fm" method="post" action="/oracle/login/">
+            {%csrf_token%}
+            <div>
+            <hr>
+            　아이디 : <input type="text" name="mem_id" value="">
+            <br>
+            패스워드 : <input type="password" name="mem_pass" value="">
+            <hr>
+            <button type="button" onclick="send();">로그인</button>
+            </div>
+            </form>
+        {% else %}
+        <hr/>
+        {{sMem_name}} ({{sMem_id}}) 님 환영합니다.
+        <hr/>
+        <button type="button" onclick="logout();">로그아웃</button>
+        {% endif %}
+    </body>
+    </center>
+    
+</html>

@@ -7,6 +7,7 @@
 <body>
 <center>
     <h1>Cart List</h1>
+    <h4><a href="/oracle/cart_insert_form">[데이터 입력]</a></h4>
     <table border="1", style ="text-align: center;">
         <tr style="background-color:gold;">
             <th>회원아이디</th>
@@ -18,7 +19,7 @@
         {% for data in df %}
         <tr>
             <td>
-                <a href="http://127.0.0.1:8000/oracle/cart?cart_no={{data.cart_no}}&cart_prod={{data.cart_prod}}">
+                <a href="/oracle/cart?pcart_no={{data.cart_no}}&pcart_prod={{data.cart_prod}}">
                     {{data.cart_member}}
                 </a>
             </td>
@@ -26,7 +27,7 @@
             <td>{{data.cart_prod}}</td>
             <td>{{data.cart_qty}}</td>
             <td style="background-color: orange;">
-                <a href="http://127.0.0.1:8000/oracle/cart_delete?cart_no={{data.cart_no}}&cart_prod={{data.cart_prod}}">
+                <a href="/oracle/cart_delete?pcart_no={{data.cart_no}}&pcart_prod={{data.cart_prod}}">
                 [삭제]
                 </a>
             </td>
