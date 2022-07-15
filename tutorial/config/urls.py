@@ -26,5 +26,6 @@ urlpatterns = [
     path('first/', include('firstapp.urls')),
     path('second/', include('secondapp.urls')),
     path('oracle/', include('oracleapp.urls')),
+    path('frontend/', include('frontendapp.urls')),
     # path('home/', views.home),
 ]

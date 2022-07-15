@@ -1,0 +1,138 @@
+<html>
+
+<head>
+    <title>Member List Page</title>
+    <link rel="stylesheet" type="text/css"
+            href = "https://getbootstrap.kr/docs/5.0/dist/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" type="text/css"
+            href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+</head>
+<body>
+    <!-- 제목 넣기 -->
+    <div class="container text-center" style="width: 100%;">
+        <div class="row">
+            <div class="'col">
+                <h1><b>Member List Page</b></h1>
+            </div>
+        </div>
+    </div>
+
+     <!-- 공백 넣기 -->
+     <div class="container text-center" style="width: 100%;">
+        <div class="row">
+            <div class="'col">
+                <a>　</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 테이블 넣기 -->
+    <div class="container text-center" style="width: 100%;">
+        <div class="row">
+            <div class="'col">
+                <table border="1" width="100%", style ="text-align: center;">
+                    <tr style="background-color:gold; font-size:15px; margin :10px;">
+                        <th>아이디</th>
+                        <th>비밀번호</th>
+                        <th>이름</th>
+                        <th>주민번호(앞)</th>
+                        <th>주민번호(뒤)</th>
+                        <th>생년월일</th>
+                        <th>우편번호</th>
+                        <th>주소</th>
+                        <th>상세주소</th>
+                        <th>집전화</th>
+                        <th>회사전화</th>
+                        <th>이동전화</th>
+                        <th>이메일</th>
+                        <th>직업</th>
+                        <th>취미</th>
+                        <th>기념일명</th>
+                        <th>기념일날짜</th>
+                        <th>마일리지</th>
+                        <th>탈퇴여부</th>
+                    </tr>
+                    {% for data in info %}
+                    <tr style = "font-size:10px;">
+                        <td>
+                            <a href="http://127.0.0.1:8000/oracle/member?mem_id={{data.mem_id}}">{{data.mem_id}}</a>
+                        </td>
+                        <td>{{data.mem_pass}}</td>
+                        <td>{{data.mem_name}}</td>
+                        <td>{{data.mem_regno1}}</td>
+                        <td>{{data.mem_regno2}}</td>
+                        <td>{{data.mem_bir}}</td>
+                        <td>{{data.mem_zip}}</td>
+                        <td>{{data.mem_add1}}</td>
+                        <td>{{data.mem_add2}}</td>
+                        <td>{{data.mem_hometel}}</td>
+                        <td>{{data.mem_comtel}}</td>
+                        <td>{{data.mem_hp}}</td>
+                        <td>{{data.mem_mail}}</td>
+                        <td>{{data.mem_job}}</td>
+                        <td>{{data.mem_like}}</td>
+                        <td>{{data.mem_memorial}}</td>
+                        <td>{{data.mem_memorialday}}</td>
+                        <td>{{data.mem_mileage}}</td>
+                        <td>{{data.mem_delete}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!-- 페이징 처리 넣기 -->
+<div class="container text-center" style="width: 100%;">
+    <div class="row">
+        <div class="'col">
+            <p>
+                <ul class="pagination" style="justify-content: center; font-size:15px">
+                    <!-- 이전 페이지 처리 -->
+                    {% if is_prev %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="{% url 'oracle:member_list_page' %}?page={{start_page | add:'-3'}}"> 
+                            <span aria-hidden="true">[이전]</span> 
+                        </a>
+                    </li>
+                    {% endif %}
+                    <!-- 이전 페이지 처리 끝 -->
+
+                    <!-- 페이지 번호 처리 -->
+                    {% for i in page_range %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="{% url 'oracle:member_list_page' %}?page={{i}}">{{i}}</a>
+                    </li>
+                    {% endfor %}
+                    <!-- 페이지 번호 처리 끝 -->
+                    
+                    <!-- 다음 페이지 처리 -->
+                    {% if is_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="{% url 'oracle:member_list_page' %}?page={{start_page | add:'3'}}"> 
+                            <span aria-hidden="true">[다음]</span> 
+                        </a>
+                    </li>
+                    {% endif %}
+                    <!-- 다음 페이지 처리 끝 -->
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://getbootstrap.kr/docs/5.0/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+            crossorigin="anonymous"></script>       
+</body>
+
+</html>

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'firstapp',
     'secondapp',
     'oracleapp',
+    'frontendapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -119,7 +120,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+# img, css, js등 정적 파일 저장공간 지정
 STATIC_URL = 'static/'
+# 디렉토리 지정
+STATICFILES_DIS = [
+    BASE_DIR / 'static',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

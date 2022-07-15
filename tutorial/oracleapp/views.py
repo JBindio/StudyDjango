@@ -1,17 +1,21 @@
-from email.utils import make_msgid
-from importlib.resources import contents
-from urllib import request
+from tracemalloc import start
 from django.http import HttpResponse
 from django.shortcuts import render
-from matplotlib.style import context
+
+# 생성한 모델 임포트
 from .model_pandas import member as mem
 from .model_pandas import cart
 from .model_pandas import login
 
-# Create your views here.
+# 페이징처리 라이브러리
+from django.core.paginator import Paginator
+
+# ----------------------------------------------------------------------------------------------------------
 
 def test(request) :
     return HttpResponse('오라클App 테스트')
+
+# ----------------------------------------------------------------------------------------------------------
 
 def oratest(request) :
     return render(
@@ -19,9 +23,11 @@ def oratest(request) :
         'oracleapp/oratest.html',
         {}
     )
+
+# ----------------------------------------------------------------------------------------------------------
     
 # 회원 전체 조회하기
-def view_Member_list(request) :
+def view_Member_List(request) :
     
     df = mem.getMemberList()
     context = {'df' : df}
@@ -31,6 +37,71 @@ def view_Member_list(request) :
         'oracleapp/member/member_list.html',
         context
     )
+
+# ----------------------------------------------------------------------------------------------------------   
+
+# 주문내역 전체 조회 페이징 처리
+def view_Member_List_Page(request) :
+    
+    # 페이징 처리1 시작
+    try :
+        now_page = request.GET.get('page')
+        now_page = int(now_page)
+    
+    except :
+        now_page = 1
+    # 페이징 처리1 끝
+    
+    # 모델 조회
+    df = mem.getMemberList()
+    
+    # 페이징 처리2 시작
+    
+    # 라이브러리 추가 from django.core.paginator import Paginator
+    # Paginator(조회모델, 나눌페이지수)
+    p = Paginator(df, 5)
+
+    # 페이지 추출
+    info = p.get_page(now_page)
+    
+    # 시작 페이지 
+    start_page = (now_page - 1) // 3 * 3 + 1
+    # 마지막 페이지
+    end_page = start_page + 2
+    
+    # p.num_pages : 전체 페이지 수
+    # end_page : 계산에 의한 페이지 수 (10 단위 계산)
+    # 전체 페이지 수보다 큰 경우 처리
+    if end_page > p.num_pages :
+        end_page = p.num_pages
+    
+    # 이전 페이지 가기
+    is_prev = False
+    # 다음 페이지 가기
+    is_next = False
+    
+    # 이전/ 다음 체크하기
+    if start_page > 1:
+        is_prev = True
+    
+    if end_page < p.num_pages:
+        is_next = True
+    
+    # 페이징 처리2 끝
+    context = {'info'        : info,
+                'page_range' : range(start_page, end_page +1),
+                'is_prev'    : is_prev,
+                'is_next'    : is_next,
+                'start_page' : start_page,
+                'end_page'   : end_page}
+    return render(
+        request,
+        'oracleapp/page_control/member_list_page.html',
+        context
+    )
+
+# ----------------------------------------------------------------------------------------------------------    
+    
 # 회원 상세조회하기
 def view_Member(request) :
     
@@ -43,6 +114,8 @@ def view_Member(request) :
         df_dict
     )
     
+# ----------------------------------------------------------------------------------------------------------
+    
 def view_Cart_List(request) :
     
     df = cart.getCartList()
@@ -52,7 +125,8 @@ def view_Cart_List(request) :
         'oracleapp/cart/cart_list.html',
         context
     )
-    
+
+# ----------------------------------------------------------------------------------------------------------    
     
 def view_Cart_Member_List(request) :
     
@@ -63,6 +137,8 @@ def view_Cart_Member_List(request) :
         'oracleapp/cart/cart_member_list.html',
         context
     )
+
+# ----------------------------------------------------------------------------------------------------------
 
 def view_Cart(request) :
     
@@ -75,6 +151,7 @@ def view_Cart(request) :
         'oracleapp/cart/cart.html',
         df_dict
     )
+# ----------------------------------------------------------------------------------------------------------    
     
 def set_Cart_Insert(request) :
     pcart_member = request.POST['pcart_member']
@@ -97,6 +174,7 @@ def set_Cart_Insert(request) :
                       '''
     return HttpResponse(pageControl)
 
+# ----------------------------------------------------------------------------------------------------------
 
 def view_Cart_Insert(request) :
     
@@ -108,6 +186,8 @@ def view_Cart_Insert(request) :
         'oracleapp/cart/cart_insert_form.html',
         {'pcart_member':pcart_member, 'pcart_prod':pcart_prod}
     )
+
+# ----------------------------------------------------------------------------------------------------------
 
 def set_Cart_Delete(request) :
     pcart_no = request.GET['pcart_no']
@@ -128,6 +208,8 @@ def set_Cart_Delete(request) :
                          </script>
                       '''
     return HttpResponse(pageControl)
+
+# ----------------------------------------------------------------------------------------------------------
     
 def view_Cart_Update(request) :
     pcart_no = request.GET['pcart_no']
@@ -145,6 +227,8 @@ def view_Cart_Update(request) :
         'oracleapp/cart/cart_update_form.html',
         df_dict
     )
+
+# ----------------------------------------------------------------------------------------------------------
 
 def set_Cart_Update(request) :
     pcart_no = request.POST['pcart_no']
@@ -172,24 +256,81 @@ def set_Cart_Update(request) :
     #     {'msg': msg}
     # )
 
+# ----------------------------------------------------------------------------------------------------------
 
-def testDict(request) :
-    context = {'context' : [{'no1':1,'no2':2,'no3':3},
-                            {'no1':4,'no2':5,'no3':6}]}
+# 주문내역 전체 조회 페이징 처리
+def view_Cart_List_Page(request) :
+    
+    # 페이징 처리1 시작
+    try :
+        now_page = request.GET.get('page')
+        now_page = int(now_page)
+    
+    except :
+        now_page = 1
+    # 페이징 처리1 끝
+    
+    # 모델 조회
+    df = cart.getCartList()
+    
+    # 페이징 처리2 시작
+    
+    # 라이브러리 추가 from django.core.paginator import Paginator
+    # Paginator(조회모델, 나눌페이지수)
+    p = Paginator(df, 10)
+
+    # 페이지 추출
+    info = p.get_page(now_page)
+    
+    # 시작 페이지 
+    start_page = (now_page - 1) // 10 * 10 + 1
+    # 마지막 페이지
+    end_page = start_page + 9
+    
+    # p.num_pages : 전체 페이지 수
+    # end_page : 계산에 의한 페이지 수 (10 단위 계산)
+    # 전체 페이지 수보다 큰 경우 처리
+    if end_page > p.num_pages :
+        end_page = p.num_pages
+    
+    # 이전 페이지 가기
+    is_prev = False
+    # 다음 페이지 가기
+    is_next = False
+    
+    # 이전/ 다음 체크하기
+    if start_page > 1:
+        is_prev = True
+    
+    if end_page < p.num_pages:
+        is_next = True
+    
+    # 페이징 처리2 끝
+    context = {'info'        : info,
+                'page_range' : range(start_page, end_page +1),
+                'is_prev'    : is_prev,
+                'is_next'    : is_next,
+                'start_page' : start_page,
+                'end_page'   : end_page}
     return render(
         request,
-        'oracleapp/test_dict.html',
+        'oracleapp/page_control/cart_list_page.html',
         context
     )
 
+# ----------------------------------------------------------------------------------------------------------
+
 # 로그인 화면
 def view_Login_Form(request):
-   return render(
+    return render(
         request,
         'oracleapp/login/login_form.html',
         {}
     )
-    
+
+# ----------------------------------------------------------------------------------------------------------
+
+# 로그인 정보 화면   
 def get_Login(request):
     pmem_id = request.POST['mem_id']
     pmem_pass = request.POST['mem_pass']
@@ -205,13 +346,7 @@ def get_Login(request):
     
     df_dict['pmem_id'] = pmem_id
     df_dict['pmem_pass'] = pmem_pass
-    
-    #  '''<script>
-    #         alert('로그인 실패. 아이디 또는 패스워드를 확인하세요.')
-    #         history.go(-1)
-    #     </script>'''
 
-    
     # Session 처리 (회원 정보를 서버에 저장해 놓고 있는 상태)
     # (로그아웃 하기전 까지 회원 정보 유지)
     # request.session[]
@@ -235,7 +370,10 @@ def get_Login(request):
         'oracleapp/login/login_form.html',
         df_dict
     )
-    
+
+# ----------------------------------------------------------------------------------------------------------
+
+# 로그아웃  
 def set_Logout(request) :
     if request.session.get('sMem_id') :
         # 세션정보 삭제하기
@@ -252,4 +390,16 @@ def set_Logout(request) :
                         alert('직접 접근할 수 없습니다, 로그인 페이지로 이동합니다')
                         location.href='/oracle/login_form/'
                      </script>'''
-        return HttpResponse(context)
+        return HttpResponse(context)    
+    
+# ----------------------------------------------------------------------------------------------------------   
+
+# Dict 변환 테스트    
+def testDict(request) :
+    context = {'context' : [{'no1':1,'no2':2,'no3':3},
+                            {'no1':4,'no2':5,'no3':6}]}
+    return render(
+        request,
+        'oracleapp/test_dict.html',
+        context
+    )

@@ -113,7 +113,7 @@ def getCart(no, prod) :
     return dict_row
 
 # 주문내역 입력하기
-def setCartInsert(id, prod, qty):
+def setCartInsert(id, prod, qty, desc):
     conn = getConnection()
     cursor = getCursor(conn)
     
@@ -122,7 +122,12 @@ def setCartInsert(id, prod, qty):
                 TO_CHAR(SYSDATE,'YYYYMMDD'),
                 MAX(cart_no)+1,        
                 TO_CHAR(SYSDATE,'YYYYMMDD') ||'00001') as max_no
-                FROM cart'''            
+                FROM cart'''
+    # 정렬시 SQL문 추가
+    if desc == True:            
+        sql +=  ''' ORDER BY mem_id DESC
+            '''
+                       
     cursor.execute(sql)
     
     max_no = cursor.fetchone()

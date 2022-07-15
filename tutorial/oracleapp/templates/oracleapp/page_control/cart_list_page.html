@@ -1,0 +1,116 @@
+<html>
+
+<head>
+    <title>Cart List Page</title>
+    <link rel="stylesheet" type="text/css"
+            href = "https://getbootstrap.kr/docs/5.0/dist/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" type="text/css"
+            href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+</head>
+<body>
+    <!-- 제목 넣기 -->
+    <div class="container text-center" style="width: 100%;">
+        <div class="row">
+            <div class="'col">
+                <h1><b>Cart List Page</b></h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- 데이터 입력 -->
+    <div class="container text-right" style="text-align:right; font-size:12px;">
+        <div class="row">
+            <div class="'col">
+                <a href="/oracle/cart_insert_form" >[데이터 입력]</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 테이블 넣기 -->
+    <div class="container text-center" style="width: 100%;">
+        <div class="row">
+            <div class="'col">
+                <table border="1" width="100%", style ="text-align: center; font-size:15px;">
+                    <tr style="background-color:gold">
+                        <th>회원아이디</th>
+                        <th>주문번호</th>
+                        <th>상품코드</th>
+                        <th>수량</th>
+                        <th style="color:white; background-color:#990000;">삭제</th>
+                    </tr>
+                    {% for data in info %}
+                    <tr style ="font-size:12px;">
+                        <td>
+                            <a href="/oracle/cart?pcart_no={{data.cart_no}}&pcart_prod={{data.cart_prod}}">
+                                {{data.cart_member}}
+                            </a>
+                        </td>
+                        <td>{{data.cart_no}}</td>
+                        <td>{{data.cart_prod}}</td>
+                        <td>{{data.cart_qty}}</td>
+                        <td>
+                            <a href="/oracle/cart_delete?pcart_no={{data.cart_no}}&pcart_prod={{data.cart_prod}}">
+                            [삭제]
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+
+<!-- 페이징 처리 넣기 -->
+<div class="container text-center" style="width: 100%;">
+    <div class="row">
+        <div class="'col">
+            <p>
+                <ul class="pagination" style="justify-content: center; font-size:12px">
+                    <!-- 이전 페이지 처리 -->
+                    {% if is_prev %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="{% url 'oracle:cart_list_page' %}?page={{start_page | add:'-10'}}"> 
+                            <span aria-hidden="true">[이전]</span> 
+                        </a>
+                    </li>
+                    {% endif %}
+                    <!-- 이전 페이지 처리 끝 -->
+
+                    <!-- 페이지 번호 처리 -->
+                    {% for i in page_range %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="{% url 'oracle:cart_list_page' %}?page={{i}}">{{i}}</a>
+                    </li>
+                    {% endfor %}
+                    <!-- 페이지 번호 처리 끝 -->
+                    
+                    <!-- 다음 페이지 처리 -->
+                    {% if is_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="{% url 'oracle:cart_list_page' %}?page={{start_page | add:'10'}}"> 
+                            <span aria-hidden="true">[다음]</span> 
+                        </a>
+                    </li>
+                    {% endif %}
+                    <!-- 다음 페이지 처리 끝 -->
+                </ul>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://getbootstrap.kr/docs/5.0/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" 
+            crossorigin="anonymous"></script>       
+</body>
+
+</html>
