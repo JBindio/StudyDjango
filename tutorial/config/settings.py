@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'secondapp',
     'oracleapp',
     'frontendapp',
+    'chi2app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
