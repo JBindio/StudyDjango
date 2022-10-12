@@ -38,9 +38,10 @@
     주피터노트북 : pip install jupyter notebook
     주피터 LAB : pip install jupyter lab
     가상환경 커널연결 : python -m ipykernel install --user --name 가상환경이름 --display-name 가상환경커널이름
-    기본 설치 라이브러리(1) : pip install ipython jupyter matplotlib pandas scikit-learn xlrd seaborn
-    기본 설치 라이브러리(2) : pip install openpyxl
-
+    기본 설치 라이브러리 : conda install ipython jupyter matplotlib pandas scikit-learn xlrd seaborn openpyxl
+	딥러닝 설치 라이브러리(conda) : conda install tensorflow keras
+	딥러닝 설치 라이브러리(pip) : pip install opencv-python 
+	
 10. VScode 플러그인 설치
 	python 
 	python for VScode
